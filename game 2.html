@@ -72,29 +72,29 @@
         }
 
         function preload() {
-            imgBorde = loadImage('Imagenes/bordes.png');
-            imgRoca = loadImage('Imagenes/roca.png');
-            imgBruja = loadImage('Imagenes/Bruja.png');
-            fondoH = loadImage('Imagenes/Fondo1.png');
-            fondoM = loadImage('Imagenes/Fondo2.png');
-            imgGanaste = loadImage('Imagenes/Ganaste.png');
-            imgPerdiste = loadImage('Imagenes/Perdiste.png');
-            musica = loadSound('Sonidos/tema.mp3');
-            golpe = loadSound('Sonidos/golpe.mp3');
-            victoria = loadSound('Sonidos/victoria.mp3');
-            derrota = loadSound('Sonidos/derrota.mp3');
-            HBoton = loadImage('Imagenes/HBoton.png');
-            MBoton = loadImage('Imagenes/MBoton.png');
+            imgBorde = loadImage('imagenes/bordes.png');
+            imgRoca = loadImage('imagenes/roca.png');
+            imgBruja = loadImage('imagenes/Bruja.png');
+            fondoH = loadImage('imagenes/Fondo1.png');
+            fondoM = loadImage('imagenes/Fondo2.png');
+            imgGanaste = loadImage('imagenes/Ganaste.png');
+            imgPerdiste = loadImage('imagenes/Perdiste.png');
+            musica = loadSound('sonidos/tema.mp3');
+            golpe = loadSound('sonidos/golpe.mp3');
+            victoria = loadSound('sonidos/victoria.mp3');
+            derrota = loadSound('sonidos/derrota.mp3');
+            HBoton = loadImage('imagenes/HBoton.png');
+            MBoton = loadImage('imagenes/MBoton.png');
             victoria.setLoop(false);
             derrota.setLoop(false);
-            fuente = loadFont('Fuentes/minecraft.ttf');
+            fuente = loadFont('fuentes/minecraft.ttf');
             //ARREGLO ANIMACIÓN DEL JUGADOR H
             for (let i = 1; i <= 6; i++) {
-                animacionH.push(loadImage('Imagenes/H' + i + '.png')); //se usa push para agregar todas las animaciones al finala del arreglo
+                animacionH.push(loadImage('imagenes/H' + i + '.png')); //se usa push para agregar todas las animaciones al finala del arreglo
             }
             //ARREGLO ANIMACIÓN DEL JUGADOR M
             for (let i = 1; i <= 6; i++) {
-                animacionM.push(loadImage('Imagenes/M' + i + '.png')); //se usa push para agregar todas las animaciones al final del arreglo
+                animacionM.push(loadImage('imagenes/M' + i + '.png')); //se usa push para agregar todas las animaciones al final del arreglo
             }
         }
 
