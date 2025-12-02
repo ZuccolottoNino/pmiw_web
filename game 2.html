@@ -46,7 +46,7 @@ const TIEMPO_OBJETIVO = 30;
 let animacionH = [];
 let animacionM = [];
 let fondoH, fondoM;
-let imgGanaste;
+let imgganaste;
 let imgPerdiste;
 let botonReiniciarX;
 let botonReiniciarY;
@@ -74,7 +74,7 @@ function preload() {
   imgBruja = loadImage('imagenes/bruja.png');
   fondoH = loadImage('imagenes/fondo1.png');
   fondoM = loadImage('imagenes/fondo2.png');
-  imgGanaste = loadImage('imagenes/ganaste.png');
+  imgganaste = loadImage('imagenes/ganaste.png');
   imgPerdiste = loadImage('imagenes/perdiste.png');
   musica = loadSound ('sonidos/tema.mp3');
   golpe = loadSound ('sonidos/golpe.mp3');
@@ -129,7 +129,7 @@ function draw() {
     text("Juego creado por: Zuccolotto Nino y Novoa Simon", 30, height / 2 - 150, 200, 200);
     dibujarBotonReiniciar();
   } else if (estadoJuego === 'GANADO') {     // Pantalla de Victoria
-    image(imgGanaste, 0, 0, width, height);
+    image(imgganaste, 0, 0, width, height);
     fill(255);
     textSize(50);
     textAlign(CENTER, CENTER);
