@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="editor.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            height: 100%;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: 000000;
+        }
+        
+        
+        #p5-canvas {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            
+            transform-origin: center center;
+            transition: transform 0.1s ease-out;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/addons/p5.sound.min.js"></script>
+</head>
+
+<body>
+    <script>
+        let pasar = 0,
+            mov = 0
+        let pasar2 = 0,
+            negro = 0
+        let pantalla = [],
+            texto = [],
+            musica
+        let inicio
+        let trans = 255,
+            trans2 = 255,
+            dir = 3,
+            dir2 = 3
+        let colorin
+
+        function setup() {
+            createCanvas(640, 480)
+            for (let i = 0; i < 22; i++) {
+                pantalla[i] = loadImage("data/p" + (i) + ".png")
+            }
+        }
+
+        function preload() {
+            inicio = loadImage('data/inicio.png')
+            texto = loadStrings('data/textos.txt')
+            musica = loadSound('data/tema.mp3')
+        }
+
+        function draw() {
+            background(100)
+            image(inicio, -100 - mov, 0, 836, 480)
+            image(pantalla[pasar], 0, 0, 836 + mov, 480)
+            textAlign()
+            comenzar()
+            pantallas()
+
+            textos()
+
+            if (pasar2 == 1) {
+                fill(0)
+                rect(0, 0, 640, 480)
+                fill(255, 255, 0)
+                text(texto[32], 120, 220)
+                text(texto[33], 140, 260)
+                if (mouseX > 280 && mouseX < 280 + 70 && mouseY > 330 && mouseY < 330 + 20) {
+                    fill(255)
+                } else {
+                    fill(255, 255, 0)
+                }
+                text('<Volver>', 280, 350)
+            }
+            if (!musica.isPlaying()) {
+                musica.setLoop(true)
+                musica.amp(0.25)
+            }
+
+            // fill(0, 255, 255)
+            //text(mouseX+','+ mouseY, mouseX, mouseY)
+        }
+
+        function mousePressed() {
+            if (pasar < 1 && pasar2 == 0 && mouseX > 525 && mouseX < 525 + 100 && mouseY > 270 && mouseY < 270 + 20) {
+                pasar = 1
+                mov = -150
+                musica.play()
+            }
+            if (pasar < 1 && mouseX > 525 && mouseX < 525 + 100 && mouseY > 20 && mouseY < 20 + 20) {
+                pasar2 = 1
+            }
+            if (mouseX > 280 && mouseX < 280 + 70 && mouseY > 330 && mouseY < 330 + 20) {
+                pasar2 = 0
+            }
+            pantallac()
+        }
+
+        function textos() {
+            fill(255, 255, 0)
+            textSize(18)
+            strokeWeight(5)
+            stroke(0)
+            text(texto[pasar], 10, 10, width - 10, height)
+        }
+
+        function pantallac() {
+            //Seguir__________
+            if (pasar >= 1 && pasar < 5 || pasar > 5 && pasar < 8 || pasar > 9 && pasar < 12 || pasar > 12 && pasar < 16 || pasar > 18 && pasar < 21) {
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 410 && mouseY < 410 + 30) {
+                    pasar++
+                }
+            }
+            if (pasar == 18) {
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 410 && mouseY < 410 + 30) {
+                    pasar = 20
+
+                }
+            }
+            //______________________
+            if (pasar == 5) {
+                //A
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 140 && mouseY < 140 + 60) {
+                    pasar = 10
+
+                }
+                //B
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 340 && mouseY < 340 + 60) {
+                    pasar = 6
+
+                }
+            }
+            //______________________
+            if (pasar == 8) {
+                //A
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 140 && mouseY < 140 + 60) {
+                    pasar = 9
+
+                }
+                //B
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 340 && mouseY < 340 + 60) {
+                    pasar = 16
+
+                }
+            }
+            //___________________
+            if (pasar == 16) {
+                //A
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 140 && mouseY < 140 + 60) {
+                    pasar = 17
+
+                }
+                //B
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 250 && mouseY < 250 + 60) {
+                    pasar = 18
+
+                }
+            }
+            //________________
+            if (pasar == 12) {
+                //A
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 140 && mouseY < 140 + 60) {
+                    pasar = 13
+
+                }
+                //B
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 340 && mouseY < 340 + 60) {
+                    pasar = 19
+
+                }
+            }
+            if (pasar == 17 || pasar == 9 || pasar == 21) {
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 220 && mouseY < 220 + 30) {
+                    pasar = 0
+                    mov = 0
+                    musica.stop()
+                }
+            }
+        }
+
+        function pantallas() {
+            if (pasar >= 1 && pasar < 5 || pasar > 5 && pasar < 8 || pasar > 9 && pasar < 12 || pasar > 12 && pasar < 16 || pasar >= 18 && pasar < 21) {
+                trans -= dir;
+
+                if (trans >= 255 || trans <= 0) {
+                    dir *= -1;
+
+                }
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 410 && mouseY < 410 + 30) {
+                    trans = 255
+                    colorin = color(255, 255, 255)
+                } else {
+                    colorin = color(255, 255, 0, trans)
+                }
+                fill(colorin)
+                textFont('Arial-ItalicMT-48', 30)
+                strokeWeight(4)
+                stroke(0, trans)
+                text('Seguir >', 525, 440)
+            }
+            //__________BOTON A_____________
+            if (pasar == 5 || pasar == 8 || pasar == 12 || pasar == 16) {
+                trans -= dir;
+                if (trans >= 255 || trans <= 0) {
+                    dir *= -1;
+                }
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 140 && mouseY < 140 + 60) {
+                    trans = 255
+                    colorin = color(255, 255, 255)
+                } else {
+                    colorin = color(255, 255, 0, trans)
+                }
+                fill(colorin)
+                textFont('Arial-ItalicMT-48', 20)
+                strokeWeight(4)
+                stroke(0, trans)
+                if (pasar == 5) {
+                    text(texto[24], 525, 140, 100)
+                }
+                if (pasar == 8) {
+                    text(texto[25], 525, 140, 100)
+                }
+                if (pasar == 12) {
+                    text(texto[28], 525, 140, 100)
+                }
+                if (pasar == 16) {
+                    text(texto[29], 525, 140, 125)
+                }
+            }
+            //_______BOTON B_____________
+            if (pasar == 5 || pasar == 8 || pasar == 12) {
+                trans2 -= dir2;
+                if (trans2 >= 255 || trans2 <= 0) {
+                    dir2 *= -1;
+                }
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 340 && mouseY < 340 + 60) {
+                    trans2 = 255
+                    colorin = color(255, 255, 255)
+                } else {
+                    colorin = color(255, 255, 0, trans2)
+                }
+                fill(colorin)
+                textFont('Arial-ItalicMT-48', 20)
+                strokeWeight(4)
+                stroke(0, trans2)
+                if (pasar == 5) {
+                    text(texto[23], 525, 340, 100)
+                }
+                if (pasar == 8) {
+                    text(texto[26], 525, 340, 100)
+                }
+                if (pasar == 12) {
+                    text(texto[27], 525, 340, 125)
+                }
+            }
+
+            if (pasar == 16) {
+                trans2 -= dir2;
+                if (trans2 >= 255 || trans2 <= 0) {
+                    dir2 *= -1;
+                }
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 250 && mouseY < 250 + 60) {
+                    trans2 = 255
+                    colorin = color(255, 255, 255)
+                } else {
+                    colorin = color(255, 255, 0, trans2)
+                }
+                fill(colorin)
+                textFont('Arial-ItalicMT-48', 20)
+                strokeWeight(4)
+                stroke(0, trans2)
+                text(texto[30], 525, 240, 125)
+            }
+
+            if (pasar == 17 || pasar == 9 || pasar == 21) {
+                trans -= dir;
+
+                if (trans >= 255 || trans <= 0) {
+                    dir *= -1;
+
+                }
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 220 && mouseY < 220 + 30) {
+                    trans = 255
+                    colorin = color(255, 255, 255)
+                } else {
+                    colorin = color(255, 255, 0, trans)
+                }
+                fill(colorin)
+                textFont('Arial-ItalicMT-48', 30)
+                strokeWeight(4)
+                stroke(0, trans)
+                text('Inicio >', 525, height / 2)
+            }
+
+
+        }
+
+        function comenzar() {
+            if (pasar < 1 && pasar2 == 0) {
+                trans -= dir;
+
+                if (trans >= 255 || trans <= 0) {
+                    dir *= -1;
+
+                }
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 270 && mouseY < 270 + 20) {
+                    trans = 255
+                    colorin = color(255, 255, 255)
+                } else {
+                    colorin = color(255, 255, 0, trans)
+                }
+                //rect(525,34, 100, 20)
+                fill(colorin)
+                textFont('Arial-ItalicMT-48', 20)
+                strokeWeight(4)
+                stroke(0, trans)
+                text('Comenzar >', 525, 290)
+            }
+            if (pasar < 1) {
+                trans2 -= dir2;
+
+                if (trans2 >= 255 || trans2 <= 0) {
+                    dir2 *= -1;
+
+                }
+                if (mouseX > 525 && mouseX < 525 + 100 && mouseY > 20 && mouseY < 20 + 20) {
+                    trans2 = 255
+                    colorin = color(255, 255, 255)
+                } else {
+                    colorin = color(255, 255, 0, trans2)
+                }
+                fill(colorin)
+                textFont('Arial-ItalicMT-48', 20)
+                strokeWeight(4)
+                stroke(0, trans2)
+                text('Creditos >', 525, 40)
+            }
+        }
+    </script>
+</body>
+
+</html>

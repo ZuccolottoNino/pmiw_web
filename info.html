@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="editor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Informacion</title>
+
+    <style>
+        section {
+            padding: 80px 0;
+        }
+        
+        .match-snip {
+            width: 100%;
+            height: 320px;
+            object-fit: contain;
+            background: #e0f0ff;
+            display: block;
+        }
+        
+        @media (max-width: 767px) {
+            .match-snip {
+                height: 220px;
+            }
+        }
+        
+        .inspo-carousel .carousel-item,
+        .inspo-carousel .carousel-inner {
+            height: 320px;
+        }
+        
+        .inspo-carousel .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            background: #e0f0ff;
+            
+        }
+        
+        @media (max-width: 767px) {
+            .inspo-carousel .carousel-item,
+            .inspo-carousel .carousel-inner {
+                height: 220px;
+            }
+        }
+        
+        .audio-player {
+            display: flex;
+            justify-content: center;
+            margin: 16px 0;
+        }
+        
+        .audio-player audio {
+            width: 100%;
+            max-width: 600px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="./S&N.html">
+                <img src="data/S&N.png" alt="S&N Logo" style="height: 50px; margin-right: 10px;">
+                <span>Games</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./index.html">
+                            <img src="data/BC.png" alt="Inicio" style="height: 50px;">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#info">
+                            <img src="data/BI.png" alt="Información" style="height: 50px;">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./juego.html">
+                            <img src="data/BJ.png" alt="Proyecto" style="height: 50px;">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <section id="inicio">
+        <div class="container text-center">
+            <h1 class="display-4">Hansel y Grettel</h1>
+            <p class="lead mt-3">El proceso detras de la aventura gráfica creada por Novoa Simon y Zucolotto Nino</p>
+
+            <img src="data/p21.png" alt="Imagen ilustrativa" class="img-fluid rounded shadow mt-4">
+        </div>
+    </section>
+
+
+    <section id="info" class="glass-panel">
+        <div class="container">
+            <h2 class="text-center mb-4">¿Cómo lo hicimos?</h2>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Generación de imagenes</h4>
+                    <p>
+                        Para la generación de imagenes de nuestra aventura gráfica utilizamos diferentes herramientas de inteligencia artificial generativa tales como Leonardo AI y Gemini, principalmente.
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <h4>Código</h4>
+                    <p>
+                        Para realizar el código de nuestra aventura gráfica nos basamos en la programación con arrays en la aplicación Processing en p5.js.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="interactivo">
+        <div class="container glass-panel">
+            <h2 class="text-center mb-4">Proceso creativo</h2>
+            <p class="text-center">A continuación mostramos una comparativa de dos etapas del proceso de generación de imágenes: <em>Primer prompt</em> vs <em>resultado final</em>.</p>
+            <p class="text-center">El prompt que utilizamos tenia la siguiente estructura: Take a screenshot from a DVD of a 1982 dark fantasy film, where Hansel and Gretel...</p>
+
+            <div class="row g-4 align-items-start">
+                <div class="col-12 col-md-6">
+                    <figure class="figure text-center">
+                        <img src="data/ejemplo.jpg" class="img-fluid rounded shadow match-snip" alt="Paso 1 - prompt / parámetros">
+                        <figcaption class="figure-caption mt-2 text-light">Primera imagen generada para buscar la composición deseada.</figcaption>
+                        <p class="small text-light text-start">El prompt que utilizamos tenia la siguiente estructura: Take a screenshot from a DVD of a 1982 dark fantasy film, where Hansel and Gretel holding a magic wand in the woods.</p>
+                    </figure>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <figure class="figure text-center">
+                        <img src="data/ejemplo.png" class="img-fluid rounded shadow match-snip" alt="Paso 2 - resultado final">
+                        <figcaption class="figure-caption mt-2 text-light">Resultado final</figcaption>
+                        <p class="small text-light text-start">A partir de la primera imagen continuamos iterando con ayuda de otras IAs para agregar la casa y el detalle de la varita.</p>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="codigo">
+        <div class="container glass-panel">
+            <h2 class="text-center mb-4">Estructura del código</h2>
+            <p class="text-center">Estas son algunas imágenes a modo de ejemplo de cómo es la lógica interna de la aventura gráfica y su funcionamiento.</p>
+
+            <div class="row g-4 align-items-start">
+                <div class="col-12 col-md-6">
+                    <figure class="figure text-center">
+                        <img src="data/ejemplocodigo4.png" class="img-fluid rounded shadow" alt="Captura código 1">
+                        <figcaption class="figure-caption mt-2 text-light">Captura 1 - Función pantallas</figcaption>
+                        <p class="small text-light text-start">Esta función propia maneja la lógica de las pantallas y su modo de dibujado para generar interactividad y estética.</p>
+                    </figure>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <figure class="figure text-center">
+                        <img src="data/ejemplocodigo2.png" class="img-fluid rounded shadow" alt="Captura código 2">
+                        <figcaption class="figure-caption mt-2 text-light">Captura 2 — Función comenzar</figcaption>
+                        <p class="small text-light text-start">Esta función se encarga de dibujar la pantalla inicial y todas sus funcionalidades y perfil estético.</p>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="inspiracion">
+        <div class="container glass-panel">
+            <h2 class="text-center mb-4">Inspiración artística</h2>
+            <p class="text-center">Nos inspiramos en la estética de los '80 estilo Dark Fantasy.</p>
+
+            <div class="row g-4 align-items-start">
+                <div class="col-12 col-md-6">
+                    <figure class="figure text-center">
+                        <div id="inspCarouselLeft" class="carousel slide inspo-carousel" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="data/ejemplolahistoria.jpg" class="d-block w-100" alt="Ejemplo la historia 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="data/ejemplolahistoria2.jpeg" class="d-block w-100" alt="Ejemplo la historia 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="data/ejemplolahistoria3.jpg" class="d-block w-100" alt="Ejemplo la historia 3">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#inspCarouselLeft" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#inspCarouselLeft" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <figcaption class="figure-caption mt-2 text-light">Referencias: La historia sin Fin</figcaption>
+                        <p class="small text-light text-start">Colección de imágenes que ayudaron a definir la estética oscura y vintage.</p>
+                    </figure>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <figure class="figure text-center">
+                        <div id="inspCarouselRight" class="carousel slide inspo-carousel" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="data/ejemplolaberinto.png" d-block w-100 " alt="Ejemplo laberinto 1 ">
+                                </div>
+                                <div class="carousel-item ">
+                                    <img src="data/ejemplolaberinto3.jpg " class="d-block w-100 " alt="Ejemplo laberinto 2 ">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev " type="button " data-bs-target="#inspCarouselRight " data-bs-slide="prev ">
+                                <span class="carousel-control-prev-icon " aria-hidden="true "></span>
+                                <span class="visually-hidden ">Previous</span>
+                            </button>
+                            <button class="carousel-control-next " type="button " data-bs-target="#inspCarouselRight " data-bs-slide="next ">
+                                <span class="carousel-control-next-icon " aria-hidden="true "></span>
+                                <span class="visually-hidden ">Next</span>
+                            </button>
+                        </div>
+                        <figcaption class="figure-caption mt-2 text-light">Referencias: El Laberinto</figcaption>
+                        <p class="small text-light text-start ">Imágenes de ejemplo sobre personajes y sensibilidad estética en general.</p>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="musica ">
+        <div class="container text-center glass-panel ">
+            <h3 class="mb-3 ">Nuestro Soundtrack</h3>
+            <div class="audio-player ">
+                <audio controls preload="none ">
+                    <source src="data/tema.mp3 " type="audio/mpeg ">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+            </div>
+            <p class="small text-light ">Reproductor del tema principal de la aventura gráfica.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>Creado por: Simon Novoa y Nino Zucolotto</p>
+        <p>Trabajo de Introducción a la Programación Orientado a las Tecnologías Web</p>
+        <p>2025</p>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js "></script>
+
+</body>
+
+</html>

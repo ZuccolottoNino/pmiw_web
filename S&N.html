@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="editor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <title>Juego</title>
+
+    <style>
+        section {
+            padding: 80px 0;
+        }
+        
+        #game-iframe-container {
+            width: 100%;
+            max-width: 685px;
+            height: 680px;
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        #game-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+        
+        
+        #game-frame-overlay {
+            position: absolute;
+            top: -75px;
+            
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            z-index: 2;
+            pointer-events: none;
+        }
+        /* En móvil: ocultar los marcos decorativos y permitir scroll dentro de cada contenedor
+           para que se pueda ver el juego completo sin recortes. */
+        @media (max-width: 767px) {
+            #game-frame-overlay { display: none; }
+
+            #game-iframe-container {
+                width: 685px;     /* tamaño original del juego en este archivo */
+                height: 680px;
+                max-width: none;
+                margin: 0 auto;
+                overflow: auto;   /* permitir desplazamiento dentro del contenedor */
+                -webkit-overflow-scrolling: touch;
+            }
+
+            #game-iframe {
+                width: 685px;
+                height: 680px;
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="./S&N.html">
+                <img src="data/S&N.png" alt="S&N Logo" style="height: 50px; margin-right: 10px;">
+                <span>Games</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./index.html">
+                            <img src="data/BC.png" alt="Inicio" style="height: 50px;">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./info.html">
+                            <img src="data/BI.png" alt="Información" style="height: 50px;">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./juego.html">
+                            <img src="data/BJ.png" alt="Proyecto" style="height: 50px;">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <section id="interactivo">
+        <div class="container">
+            <h2 class="text-center mb-4">Prueba nuestros proyectos aquí</h2>
+            <h4 class="text-center">Hansel y Gretel: La aventura gráfica</h4>
+
+            <div class="p-5 glass-panel text-center">
+
+                <div id="game-iframe-container" class="mx-auto">
+                    <img src="data/marco.png" alt="Marco del juego" id="game-frame-overlay">
+                    <iframe id="game-iframe" src="game.html" allow="fullscreen" allowfullscreen></iframe>
+
+                </div>
+                <h4 class="text-center">Hansel y Gretel: Esquiva las rocas</h4>
+                <div id="game-iframe-container" class="mx-auto">
+                    <img src="data/marco.png" alt="Marco del juego" id="game-frame-overlay">
+                    <iframe id="game-iframe" src="game 2.html" allow="fullscreen" allowfullscreen></iframe>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>Creado por: Simon Novoa y Nino Zucolotto</p>
+        <p>TTrabajo de Introducción a la Programación Orientado a las Tecnologías Web</p>
+        <p>2025</p>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

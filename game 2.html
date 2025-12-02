@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="editor.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+            height: 100%;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: 000000;
+        }
+        
+        
+        #p5-canvas {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            
+            transform-origin: center center;
+            transition: transform 0.1s ease-out;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/addons/p5.sound.min.js"></script>
+</head>
+
+<body>
+    <script>
+        //YOUTUBE:https://www.youtube.com/watch?v=rmS7SFmleBA
+        let juego;
+        let inicio;
+        let imgBorde, m1 = 0,
+            m2, af, imgRoca; //imgBorde(borde de la imagen del fondo) m1(movimiento1) m2(movimiento2) af(alturaFondo)
+        let imgBruja;
+        let estadoJuego = 'INICIO'; //ESTADOS:INICIO,JUGANDO,GAMEOVER,GANADO
+        let tiempoInicio;
+        const TIEMPO_OBJETIVO = 30;
+        let animacionH = [];
+        let animacionM = [];
+        let fondoH, fondoM;
+        let imgGanaste;
+        let imgPerdiste;
+        let botonReiniciarX;
+        let botonReiniciarY;
+        let musicaVictoriaSono = false;
+        let musicaDerrotaSono = false;
+        let fuente;
+        let HBoton, MBoton;
+
+        function setup() {
+            createCanvas(640, 480);
+
+            juego = new Juego();
+            inicio = new Inicio();
+
+            juego.iniciar();
+            //loop del fondo
+            af = imgBorde.height;
+            m2 = -af;
+
+            botonReiniciarX = width / 2 - 110;
+            botonReiniciarY = height / 2 + 50;
+        }
+
+        function preload() {
+            imgBorde = loadImage('Imagenes/bordes.png');
+            imgRoca = loadImage('Imagenes/roca.png');
+            imgBruja = loadImage('Imagenes/Bruja.png');
+            fondoH = loadImage('Imagenes/Fondo1.png');
+            fondoM = loadImage('Imagenes/Fondo2.png');
+            imgGanaste = loadImage('Imagenes/Ganaste.png');
+            imgPerdiste = loadImage('Imagenes/Perdiste.png');
+            musica = loadSound('Sonidos/tema.mp3');
+            golpe = loadSound('Sonidos/golpe.mp3');
+            victoria = loadSound('Sonidos/victoria.mp3');
+            derrota = loadSound('Sonidos/derrota.mp3');
+            HBoton = loadImage('Imagenes/HBoton.png');
+            MBoton = loadImage('Imagenes/MBoton.png');
+            victoria.setLoop(false);
+            derrota.setLoop(false);
+            fuente = loadFont('Fuentes/minecraft.ttf');
+            //ARREGLO ANIMACIÓN DEL JUGADOR H
+            for (let i = 1; i <= 6; i++) {
+                animacionH.push(loadImage('Imagenes/H' + i + '.png')); //se usa push para agregar todas las animaciones al finala del arreglo
+            }
+            //ARREGLO ANIMACIÓN DEL JUGADOR M
+            for (let i = 1; i <= 6; i++) {
+                animacionM.push(loadImage('Imagenes/M' + i + '.png')); //se usa push para agregar todas las animaciones al final del arreglo
+            }
+        }
+
+        function draw() {
+            background(0, 150, 255);
+            textFont(fuente)
+
+            if (estadoJuego === 'INICIO') {
+                inicio.dibujar();
+                musica.stop()
+            } else if (estadoJuego === 'JUGANDO') {
+                let tiempoTranscurrido = floor((millis() - tiempoInicio) / 1000); //tiempo en segundos redondeado
+                if (tiempoTranscurrido >= TIEMPO_OBJETIVO) {
+                    estadoJuego = 'GANADO';
+                } else if (juego.Jugador.vida <= 0) {
+                    estadoJuego = 'GAMEOVER';
+                } else { // Animación del fondo
+                    m1 = m1 + 5;
+                    m2 = m2 + 5;
+                    image(imgBorde, 0, m1, 640, 480);
+                    image(imgBorde, 0, m2, 640, 480);
+                    if (m1 >= height) {
+                        m1 = -af;
+                    }
+                    if (m2 >= height) {
+                        m2 = -af;
+                    }
+                    juego.dibujar(tiempoTranscurrido);
+                }
+            } else if (estadoJuego === 'GAMEOVER') { // Pantalla de Game Over
+                image(imgPerdiste, 0, 0, width, height);
+                fill(255);
+                textSize(50);
+                textAlign(CENTER, CENTER);
+                musica.stop()
+                textSize(20);
+                text("Juego creado por: Zuccolotto Nino y Novoa Simon", 30, height / 2 - 150, 200, 200);
+                dibujarBotonReiniciar();
+            } else if (estadoJuego === 'GANADO') { // Pantalla de Victoria
+                image(imgGanaste, 0, 0, width, height);
+                fill(255);
+                textSize(50);
+                textAlign(CENTER, CENTER);
+                textSize(30);
+                text("Escapaste de la bruja", width / 2, height / 2 - 90);
+                textSize(20)
+                textAlign(CENTER, BOTTOM);
+                text("Juego creado por: Zuccolotto Nino y Novoa Simon", width / 2, height - 20);
+                musica.stop()
+                dibujarBotonReiniciar();
+            }
+            if (estadoJuego === 'GANADO') {
+                if (!victoria.isPlaying() && musicaVictoriaSono == false) {
+                    victoria.play();
+                    victoria.amp(0.25);
+                    musicaVictoriaSono = true
+                }
+            }
+
+            if (estadoJuego === 'GAMEOVER') {
+                if (!derrota.isPlaying() && musicaDerrotaSono == false) {
+                    derrota.play();
+                    derrota.amp(0.25);
+                    musicaDerrotaSono = true
+                }
+            }
+        }
+
+        function dibujarBotonReiniciar() {
+            if (mouseX > botonReiniciarX && mouseX < botonReiniciarX + 220 &&
+                mouseY > botonReiniciarY && mouseY < botonReiniciarY + 70) {
+                fill(255, 200);
+            } else {
+                fill(200, 200, 200, 200);
+            }
+            stroke(0);
+            strokeWeight(2);
+            rect(botonReiniciarX, botonReiniciarY, 220, 70);
+            fill(0);
+            noStroke();
+            textSize(30);
+            textAlign(CENTER, CENTER);
+            text("Reiniciar", width / 2, botonReiniciarY + 35);
+        }
+
+        function keyPressed() {
+            if (estadoJuego === 'JUGANDO') {
+                juego.Jugador.moverJugador(key);
+                juego.bruja.moverBruja(key);
+            }
+        }
+
+        function mousePressed() {
+            if (estadoJuego === 'INICIO') {
+                let seleccion = inicio.fueClickeado(mouseX, mouseY);
+                if (seleccion === 'INICIAR_JUEGO') {
+                    musica.play()
+                    userStartAudio()
+                    juego.Jugador.actualizarAnimacion(inicio.jugadorSeleccionado);
+                    estadoJuego = 'JUGANDO';
+                    tiempoInicio = millis();
+                }
+            } else if (estadoJuego === 'GAMEOVER' || estadoJuego === 'GANADO') {
+                if (mouseX > botonReiniciarX && mouseX < botonReiniciarX + 220 &&
+                    mouseY > botonReiniciarY && mouseY < botonReiniciarY + 70) {
+                    reiniciarJuego();
+                }
+            }
+        }
+
+        function reiniciarJuego() {
+            juego = new Juego();
+            inicio = new Inicio();
+            estadoJuego = 'INICIO';
+            musicaVictoriaSono = false;
+            musicaDerrotaSono = false;
+            loop();
+        }
+        class Bruja {
+            constructor() {
+                this.posY = 440;
+                this.movimiento = 0;
+                this.tam = 80;
+            }
+            dibujar() {
+                image(imgBruja, width / 2 + this.movimiento - this.tam / 2, this.posY - this.tam / 2, this.tam, this.tam);
+            }
+            moverBruja(key) {
+                if (key === 'a') {
+                    this.movimiento -= 80
+                } // Izq
+                if (key === 'd') {
+                    this.movimiento += 80
+                } // Der
+                this.movimiento = constrain(this.movimiento, -240, 240); // Limite
+            }
+        }
+        class Inicio {
+            constructor() {
+                this.rectW = 200;
+                this.rectH = 80;
+                this.rectX = width / 2 - this.rectW / 2;
+                this.rectY = height / 2 + 50;
+                this.radioBoton = 30;
+                this.posBotonH = {
+                    x: width / 2 - 80,
+                    y: this.rectY + this.rectH + 80
+                };
+                this.posBotonM = {
+                    x: width / 2 + 80,
+                    y: this.rectY + this.rectH + 80
+                };
+                this.jugadorSeleccionado = 'H';
+            }
+            dibujar() {
+                if (this.jugadorSeleccionado === 'H') {
+                    image(fondoH, 0, 0, width, height)
+                } else {
+                    image(fondoM, 0, 0, width, height)
+                }
+                fill(255); // Color blanco para el texto
+                textSize(20); // Tamaño de la fuente
+                textAlign(LEFT, TOP); // Alineación a la izquierda y arriba
+                text("Muevete hacia los costados con A y D\npara esquivar las rocas.", 20, 100); // Posición (20, 20)
+
+                fill(255);
+                textSize(50);
+                textAlign(CENTER, CENTER);
+                text("ESQUIVA LAS ROCAS", width / 2, 40);
+                this.dibujarBotonJugar();
+                fill(255);
+                textSize(20);
+                text("Elegi Personaje", width / 2, this.rectY + this.rectH + 35);
+                this.dibujarSelector(this.posBotonH.x, this.posBotonH.y, 'H', HBoton, this.jugadorSeleccionado === 'H');
+                this.dibujarSelector(this.posBotonM.x, this.posBotonM.y, 'M', MBoton, this.jugadorSeleccionado === 'M');
+            }
+
+            dibujarBotonJugar() {
+                fill((mouseX > this.rectX && mouseX < this.rectX + this.rectW && mouseY > this.rectY && mouseY < this.rectY + this.rectH) ?
+                    200 : 255, 255, 0);
+                rect(this.rectX, this.rectY, this.rectW, this.rectH);
+                fill(0);
+                textSize(36);
+                text("JUGAR", width / 2, this.rectY + this.rectH / 2);
+            }
+
+            dibujarSelector(x, y, nombre, imgBoton, activo) {
+                noStroke();
+                fill(50);
+                image(imgBoton, x - 30, y - 30, this.radioBoton * 2)
+                fill(255);
+                textSize(30);
+                text(nombre, x, y);
+
+            }
+
+            fueClickeado(mx, my) {
+                if (mx > this.rectX && mx < this.rectX + this.rectW && my > this.rectY && my < this.rectY + this.rectH) {
+                    return 'INICIAR_JUEGO'
+                }
+
+                if (dist(mx, my, this.posBotonH.x, this.posBotonH.y) < this.radioBoton) {
+                    this.jugadorSeleccionado = 'H';
+                    return 'H';
+                }
+
+                if (dist(mx, my, this.posBotonM.x, this.posBotonM.y) < this.radioBoton) {
+                    this.jugadorSeleccionado = 'M';
+                    return 'M';
+                }
+                return 'NINGUNO';
+            }
+        }
+        class Juego {
+            constructor() {
+                this.Jugador = new Jugador();
+                this.Rio = new Rio(this.Jugador);
+                this.bruja = new Bruja();
+            }
+
+            iniciar() {}
+
+            dibujar(tiempo) {
+                this.Jugador.dibujar();
+                this.bruja.dibujar();
+                this.Rio.dibujar();
+                this.dibujarVida();
+                this.dibujarTiempo(tiempo);
+            }
+
+            dibujarVida() {
+                fill(255);
+                textSize(24);
+                text('Vida: ' + this.Jugador.vida, 45, 30);
+            }
+
+            dibujarTiempo(tiempo) {
+                fill(255);
+                textSize(24);
+                textAlign(RIGHT, BASELINE);
+                let restante = max(0, TIEMPO_OBJETIVO - tiempo); // No bajar de 0
+                text('Tiempo: ' + restante, width - 45, 30); // Cronómetro
+                textAlign(LEFT, BASELINE);
+            }
+
+        }
+        class Jugador {
+            constructor() {
+                this.movimiento = 0;
+                this.vida = 3;
+                this.velocidad = 10;
+                this.ancho = 80;
+                this.alto = 80;
+                this.frameIndex = 0;
+                this.frameRate = 5;
+                this.animacionSet = animacionH;
+                this.posicionesY = {
+                    3: 320,
+                    2: 360,
+                    1: 400,
+                    0: 440
+                }; //Retroceder al chocar con roca
+            }
+
+            moverJugador(key) {
+                if (key === 'a') this.movimiento -= 80; // Izq
+                if (key === 'd') this.movimiento += 80; // Der
+                this.movimiento = constrain(this.movimiento, -240, 240); // constrain limita los valores en un rango determinado
+            }
+
+            quitarVida() {
+                    if (this.vida > 0) this.vida--;
+                    golpe.play();
+                } // Reducir vida
+
+            reiniciar() {
+                this.vida = 3;
+                this.movimiento = 0;
+                this.frameIndex = 0;
+            }
+
+            actualizarAnimacion(t) {
+                this.animacionSet = (t === 'H') ? animacionH : animacionM;
+            }
+
+            dibujar() {
+                this.posX = width / 2;
+                this.posY = this.posicionesY[this.vida];
+
+                if (frameCount % this.frameRate === 0)
+                    this.frameIndex = (this.frameIndex + 1) % this.animacionSet.length; // Avanzar frame en la animacion cada 5 frames
+
+                image(
+                    this.animacionSet[this.frameIndex],
+                    this.posX + this.movimiento - this.ancho / 2,
+                    this.posY - this.alto / 2,
+                    this.ancho, this.alto
+                );
+
+                this.colisionJugador = {
+                    x: this.posX + this.movimiento,
+                    y: this.posY,
+                    radio: this.ancho / 2
+                }; // Hitbox
+            }
+        }
+        class Rio {
+            constructor(Jugador) {
+                this.Roca = [];
+                this.Jugador = Jugador;
+                this.cantRocasMax = 7;
+                this.tasaAparicionRocas = 40;
+                this.posPermitidas = [80, 160, 240, 320, 400, 480, 560];
+            }
+
+            dibujar() {
+                this.spawnRocas();
+                this.dibujarRocas();
+                this.chequearColision();
+            }
+
+            spawnRocas() {
+                if (frameCount % this.tasaAparicionRocas === 0 && this.Roca.length < this.cantRocasMax) {
+
+                    //Elegir una posición X aleatoria de la lista
+                    let randomIndex = floor(random(this.posPermitidas.length));
+                    let spawnX = this.posPermitidas[randomIndex];
+
+                    //Definir la posición Y de aparición (separación vertical)
+                    let spawnY = -80;
+
+                    if (this.Roca.length > 0) {
+                        // Encuentra la más alta en posición Y entre todas las rocas
+                        let rocaAltaY = this.Roca.reduce((minY, roca) => min(minY, roca.posY), 0); //busca la roca con la posición Y mas chica en la pantalla.
+
+                        // La nueva roca aparece 80 mas arriba
+                        spawnY = rocaAltaY - 80;
+                    }
+
+                    this.Roca.push(new Roca(spawnX, spawnY));
+                }
+            }
+
+            dibujarRocas() {
+                for (let i = this.Roca.length - 1; i >= 0; i--) {
+                    let roca = this.Roca[i];
+                    roca.mover();
+                    roca.dibujar();
+
+                    if (roca.fueraDePantalla(height)) {
+                        this.Roca.splice(i, 1); //splice elimina un elemento de un arreglo
+                    }
+                }
+            }
+
+            chequearColision() {
+                let radioJugador = 20;
+
+                for (let i = this.Roca.length - 1; i >= 0; i--) {
+                    let roca = this.Roca[i];
+                    let distancia = dist(this.Jugador.colisionJugador.x, this.Jugador.colisionJugador.y, roca.posX, roca.posY);
+
+                    if (distancia < radioJugador + roca.tam / 2) {
+                        this.Jugador.quitarVida();
+                        this.Roca.splice(i, 1); //splice elimina un elemento de un arreglo
+                    }
+                }
+            }
+        }
+        class Roca {
+            constructor(x, y) {
+                this.tam = 80;
+                this.velocidad = 5;
+                this.posX = x;
+                this.posY = y;
+            }
+
+            mover() {
+                    this.posY += this.velocidad;
+                } //movimiento rocas cayendo
+
+            fueraDePantalla(h) {
+                    return this.posY > h + this.tam;
+                } //fuera de pantalla
+
+            dibujar() {
+                image(imgRoca, this.posX - this.tam / 2, this.posY - this.tam / 2, this.tam, this.tam);
+            }
+        }
+    </script>
+</body>
+
+</html>
