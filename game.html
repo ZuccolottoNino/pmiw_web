@@ -26,6 +26,11 @@
             
             transform-origin: center center;
             transition: transform 0.1s ease-out;
+            /* Ensure canvas displays at exact logical size regardless of parent CSS */
+            width: 640px !important;
+            height: 480px !important;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 
@@ -44,6 +49,8 @@ let trans=255, trans2=255, dir = 3, dir2 = 3
 let colorin
 
 function setup() {
+  // Force logical canvas size and avoid devicePixelRatio scaling differences
+  pixelDensity(1)
   createCanvas(640, 480)
   for (let i=0; i<22; i++) {
     pantalla[i] = loadImage("data/p"+(i)+".png")
